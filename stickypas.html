@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticker & Fan Shop</title>
+    <style>
+        :root {
+            --primary: #b070dc;  
+            --secondary: #7f83d2; 
+            --accent: #dad2e6;  
+            --white: #ffffff;
+            --light: #f8f9fa;
+            --dark: #121212;
+            --gray: #dfe6e9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        @import url('https://i.pinimg.com/736x/0c/85/84/0c85842208053c73d42abe7b492edb3e.jpg');
+        
+        body {
+            background-color: var(--white);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .header-container {
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+                        url('stickypasheader.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            color: white;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .header-btn {
+            background-color: var(--white);
+            color: var(--primary);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .header-btn:hover {
+            background-color: rgba(255,255,255,0.9);
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.5rem;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Products */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin: 0 auto;
+        }
+        
+        .product-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .slide-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.3);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .slide-btn:hover {
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .prev-btn {
+            left: 10px;
+        }
+        
+        .next-btn {
+            right: 10px;
+        }
+        
+        .slide-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .slide-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .slide-dot.active {
+            background-color: var(--white);
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        /* Abstract Gallery Section */
+        .abstract-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            grid-template-rows: 30vh 40vh 30vh;
+            gap: 12px;
+            padding: 5px;
+            height: 100vh;
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: var(--white);
+        }
+        
+        .panel {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Main focal panel - Vertical slice of portrait */
+        .panel-main {
+            grid-column: 2;
+            grid-row: 1 / span 3;
+            background-image: url('modelstickypas3.jpg');
+            background-position: 70% center;
+        }
+        
+        /* Abstract color fields */
+        .panel-accent-1 {
+            grid-column: 1;
+            grid-row: 1;
+            background-image: url('modelstickypas2.jpg');
+        }
+        
+        .panel-accent-2 {
+            grid-column: 3;
+            grid-row: 3;
+            background-image: url('modelstickypas1.jpg');
+        }
+        
+        /* Secondary portrait details */
+        .panel-detail-1 {
+            grid-column: 1;
+            grid-row: 2 / span 2;
+            background-image: url('modelstickypas4.jpg');
+            background-position: 30% center;
+        }
+        
+        .panel-detail-2 {
+            grid-column: 3;
+            grid-row: 1 / span 2;
+            background-image: url('modelstickypas5.jpg');
+            background-position: left center;
+
+        }
+        
+        /* Floating title */
+        .gallery-title {
+            position: absolute;
+            bottom: 15%;
+            left: 5%;
+            color: var(--dark);
+            z-index: 20;
+        }
+        
+        h1 {
+            font-size: clamp(2rem, 4vw, 4rem);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .gallery-title p {
+            font-size: clamp(0.8rem, 1.2vw, 1rem);
+            letter-spacing: 0.3em;
+            opacity: 0.8;
+        }
+        
+        /* Hover effects */
+        .panel:hover {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        .modal-slideshow {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .modal-slide.active {
+            opacity: 1;
+        }
+        
+        .modal-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .modal-slide-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.3);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .modal-slide-btn:hover {
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-prev-btn {
+            left: 10px;
+        }
+        
+        .modal-next-btn {
+            right: 10px;
+        }
+        
+        .modal-slide-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+        
+        .modal-slide-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .modal-slide-dot.active {
+            background-color: var(--white);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-price {
+            font-size: 1.3rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .footer-spacer {
+    height: 130px; /* Atau nilai yang sesuai */
+    background-color: var(--white);
+}
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        .copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Contact Us Title with Underline */
+        .contact-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .contact-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                height: 60vh;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .abstract-gallery {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 25vh);
+            }
+            
+            .panel-main {
+                grid-column: 1;
+                grid-row: 1 / span 2;
+                clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 90%);
+            }
+            
+            .panel-detail-1, 
+            .panel-detail-2,
+            .panel-accent-1,
+            .panel-accent-2 {
+                grid-column: 1;
+                grid-row: auto;
+            }
+            
+            .gallery-title {
+                left: 10%;
+                bottom: 10%;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Model Photo -->
+    <div class="header-container">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <h1 class="logo">STICKYPAS</h1>
+            <p class="tagline">Sticker and Handfan for your everyday life!</p>
+            <a href="#products" class="header-btn">View Products</a>
+        </div>
+    </div>
+    
+    <nav>
+        <ul>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#abstract-gallery">Gallery</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="products">
+            <h2 class="section-title">Our Products</h2>
+            
+            <div class="product-grid">
+                <!-- Sticker Product -->
+                <div class="product-card" onclick="openModal('sticker')">
+                    <div class="slideshow-container" id="stickerSlideshow">
+                        <button class="slide-btn prev-btn" onclick="event.stopPropagation(); prevSlide('sticker')">❮</button>
+                        
+                        <div class="slide active">
+                            <img src="stikerslide.png" alt="Sticker Design 1">
+                        </div>
+                        <div class="slide">
+                            <img src="stikerslide.png alt="Sticker Design 2">
+                        </div>
+                        <div class="slide">
+                            <img src="stikerslide.png" alt="Sticker Design 3">
+                        </div>
+                        
+                        <button class="slide-btn next-btn" onclick="event.stopPropagation(); nextSlide('sticker')">❯</button>
+                        
+                        <div class="slide-nav">
+                            <span class="slide-dot active" onclick="event.stopPropagation(); setSlide('sticker', 0)"></span>
+                            <span class="slide-dot" onclick="event.stopPropagation(); setSlide('sticker', 1)"></span>
+                            <span class="slide-dot" onclick="event.stopPropagation(); setSlide('sticker', 2)"></span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Sticker</h3>
+                        <p class="product-price">Rp 4.000</p>
+                    </div>
+                </div>
+                
+                <!-- Fan Product -->
+                <div class="product-card" onclick="openModal('fan')">
+                    <div class="slideshow-container" id="fanSlideshow">
+                        <button class="slide-btn prev-btn" onclick="event.stopPropagation(); prevSlide('fan')">❮</button>
+                        
+                        <div class="slide active">
+                            <img src="kipasslide.png" alt="Fan Design 1">
+                        </div>
+                        <div class="slide">
+                            <img src="kipasslide.png" alt="Fan Design 2">
+                        </div>
+                        <div class="slide">
+                            <img src="kipasslide.png" alt="Fan Design 3">
+                        </div>
+                        
+                        <button class="slide-btn next-btn" onclick="event.stopPropagation(); nextSlide('fan')">❯</button>
+                        
+                        <div class="slide-nav">
+                            <span class="slide-dot active" onclick="event.stopPropagation(); setSlide('fan', 0)"></span>
+                            <span class="slide-dot" onclick="event.stopPropagation(); setSlide('fan', 1)"></span>
+                            <span class="slide-dot" onclick="event.stopPropagation(); setSlide('fan', 2)"></span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Kipas Tangan</h3>
+                        <p class="product-price">Rp 10.000</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Abstract Gallery Section -->
+    <section id="abstract-gallery" class="abstract-gallery">
+        <div class="panel panel-main"></div>
+        <div class="panel panel-accent-1"></div>
+        <div class="panel panel-accent-2"></div>
+        <div class="panel panel-detail-1"></div>
+        <div class="panel panel-detail-2"></div>
+    </section>
+    
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            
+            <div class="modal-slideshow" id="modalSlideshow">
+                <!-- Slides will be added dynamically -->
+            </div>
+            
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <p id="modalPrice" class="modal-price"></p>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+    
+    <!-- Tambahkan ini sebelum footer -->
+   <div class="footer-spacer"></div>
+    <footer>
+        <h1 class="contact-title">Contact Us</h1>
+        <div class="social-links">
+            <a href="https://www.instagram.com/stickypas?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a>
+            <a href="https://wa.me/6218793473">Whatsapp</a>
+            <a href="https://www.instagram.com/stickypas?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Tiktok</a>
+        </div>
+        
+        <div class="copyright">
+            ^^ Thank you for your order! ^^
+        </div>
+    </footer>
+    
+    <script>
+        // Product data
+        const products = {
+            sticker: {
+                title: "Sticker",
+                price: "Rp 4.000",
+                description: `
+                Hiasi hari-harimu dengan stiker vinyl glossy yang cerah dan tahan lama! Tersedia berbagai pilihan gambar menarik, atau kamu bisa memesan desain custom sendiri.
+                <br>
+                <strong>Detail Produk:</strong><br>
+                ✧ Bahan: Vinyl Glossy (licin, tahan air, dan awet)<br>
+                ✧ Ukuran per lembar: 10 cm x 16 cm<br>
+                <strong>Harga:</strong>
+                <br>• Sticker reguler: Rp 4.000/lembar
+                <br>• Sticker custom: Rp 6.000/lembar
+                <br><br>
+                <strong>Kenapa Beli di Sini?</strong>
+                <br>✔ Pilihan desain beragam atau custom sesuai keinginanmu
+                <br>✔ Harga terjangkau untuk per lembar
+                <br><br>
+                Pesan sekarang dan buat harimu lebih colorful!
+            `,
+                images: [
+                    "stiker1.png",
+                    "stiker2.png",
+                    "stikercustom.png"
+                ]
+            },
+            fan: {
+                title: "Kipas Tangan",
+                price: "Rp 10.000",
+                description: `
+                Nikmati sejuknya angin dengan kipas tangan art carton yang stylish!<br>
+                Ringan namun kokoh, perfect untuk menemani aktivitas sehari-harimu
+                <br>
+                <strong>Detail Produk:</strong><br>
+                ✧ Bahan: Art Carton 310gr<br>
+                ✧ Finishing: Laminasi Glossy anti air<br>
+                <strong>Harga:</strong>
+                <br>• Kipas reguler: Rp 10.000
+                <br>• Kipas custom: Rp 12.000
+                <br><br>
+                <strong>Kenapa Beli di Sini?</strong>
+                <br>✔ Pilihan desain beragam atau custom sesuai keinginanmu
+                <br>✔ Harga terjangkau
+                <br><br>
+                Dapatkan sekarang untuk teman setia di hari panas!
+            `,
+                images: [
+                    "kipas1.png",
+                    "kipas2.png",
+                    "kipascustom.png"
+                ]
+            }
+        };
+        
+        let currentSlide = {
+            sticker: 0,
+            fan: 0
+        };
+        
+        function prevSlide(product) {
+            const slides = document.querySelectorAll(`#${product}Slideshow .slide`);
+            const dots = document.querySelectorAll(`#${product}Slideshow .slide-dot`);
+            
+            slides[currentSlide[product]].classList.remove('active');
+            dots[currentSlide[product]].classList.remove('active');
+            
+            currentSlide[product] = (currentSlide[product] - 1 + slides.length) % slides.length;
+            
+            slides[currentSlide[product]].classList.add('active');
+            dots[currentSlide[product]].classList.add('active');
+        }
+        
+        function nextSlide(product) {
+            const slides = document.querySelectorAll(`#${product}Slideshow .slide`);
+            const dots = document.querySelectorAll(`#${product}Slideshow .slide-dot`);
+            
+            slides[currentSlide[product]].classList.remove('active');
+            dots[currentSlide[product]].classList.remove('active');
+            
+            currentSlide[product] = (currentSlide[product] + 1) % slides.length;
+            
+            slides[currentSlide[product]].classList.add('active');
+            dots[currentSlide[product]].classList.add('active');
+        }
+        
+        function setSlide(product, index) {
+            const slides = document.querySelectorAll(`#${product}Slideshow .slide`);
+            const dots = document.querySelectorAll(`#${product}Slideshow .slide-dot`);
+            
+            slides[currentSlide[product]].classList.remove('active');
+            dots[currentSlide[product]].classList.remove('active');
+            
+            currentSlide[product] = index;
+            
+            slides[currentSlide[product]].classList.add('active');
+            dots[currentSlide[product]].classList.add('active');
+        }
+        
+        // Modal functionality
+        const modal = document.getElementById('productModal');
+        let currentModalSlide = 0;
+        
+        function openModal(product) {
+            const productData = products[product];
+            const modalSlideshow = document.getElementById('modalSlideshow');
+            
+            // Set modal content
+            document.getElementById('modalTitle').textContent = productData.title;
+            document.getElementById('modalPrice').textContent = productData.price;
+            document.getElementById('modalDescription').textContent = productData.description;
+            document.getElementById('modalDescription').innerHTML = productData.description;
+            
+            // Create modal slides
+            modalSlideshow.innerHTML = '';
+            
+            productData.images.forEach((img, index) => {
+                const slide = document.createElement('div');
+                slide.className = `modal-slide ${index === 0 ? 'active' : ''}`;
+                slide.innerHTML = `<img src="${img}" alt="${productData.title} ${index + 1}">`;
+                modalSlideshow.appendChild(slide);
+            });
+            
+            // Create modal slide buttons and dots
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'modal-slide-btn modal-prev-btn';
+            prevBtn.innerHTML = '❮';
+            prevBtn.onclick = () => prevModalSlide();
+            modalSlideshow.appendChild(prevBtn);
+            
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'modal-slide-btn modal-next-btn';
+            nextBtn.innerHTML = '❯';
+            nextBtn.onclick = () => nextModalSlide();
+            modalSlideshow.appendChild(nextBtn);
+            
+            const slideNav = document.createElement('div');
+            slideNav.className = 'modal-slide-nav';
+            
+            productData.images.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = `modal-slide-dot ${index === 0 ? 'active' : ''}`;
+                dot.onclick = () => setModalSlide(index);
+                slideNav.appendChild(dot);
+            });
+            
+            modalSlideshow.appendChild(slideNav);
+            
+            // Show modal
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Set initial slide
+            currentModalSlide = 0;
+        }
+        
+        function prevModalSlide() {
+            const slides = document.querySelectorAll('.modal-slide');
+            const dots = document.querySelectorAll('.modal-slide-dot');
+            
+            slides[currentModalSlide].classList.remove('active');
+            dots[currentModalSlide].classList.remove('active');
+            
+            currentModalSlide = (currentModalSlide - 1 + slides.length) % slides.length;
+            
+            slides[currentModalSlide].classList.add('active');
+            dots[currentModalSlide].classList.add('active');
+        }
+        
+        function nextModalSlide() {
+            const slides = document.querySelectorAll('.modal-slide');
+            const dots = document.querySelectorAll('.modal-slide-dot');
+            
+            slides[currentModalSlide].classList.remove('active');
+            dots[currentModalSlide].classList.remove('active');
+            
+            currentModalSlide = (currentModalSlide + 1) % slides.length;
+            
+            slides[currentModalSlide].classList.add('active');
+            dots[currentModalSlide].classList.add('active');
+        }
+        
+        function setModalSlide(index) {
+            const slides = document.querySelectorAll('.modal-slide');
+            const dots = document.querySelectorAll('.modal-slide-dot');
+            
+            slides[currentModalSlide].classList.remove('active');
+            dots[currentModalSlide].classList.remove('active');
+            
+            currentModalSlide = index;
+            
+            slides[currentModalSlide].classList.add('active');
+            dots[currentModalSlide].classList.add('active');
+        }
+        
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
