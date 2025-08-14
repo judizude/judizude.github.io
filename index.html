@@ -35,12 +35,6 @@
             height: 80vh;
             overflow: hidden;
         }
-
-        @media (max-width: 768px) {
-              .header-container {
-                height: 60vh; /* Mobile */
-            }
-        }
         
         .header-bg {
             position: absolute;
@@ -256,16 +250,10 @@
         }
         
         .product-title {
-    font-size: 1.3rem; /* Desktop */
-}
-@media (max-width: 768px) {
-    .product-title {
-        font-size: 1.5rem; /* Mobile */
-    }
-    .header-btn {
-        padding: 1rem 2rem; /* Tombol lebih besar */
-    }
-}
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
         
         .product-price {
             font-size: 1.2rem;
@@ -287,13 +275,6 @@
             background-color: var(--white);
         }
         
-        @media (max-width: 768px) {
-    .abstract-gallery {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(5, 25vh);
-    }
-}
-
         .panel {
             background-size: cover;
             background-position: center;
@@ -944,3 +925,4 @@
     </script>
 </body>
 </html>
+
