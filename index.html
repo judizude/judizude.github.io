@@ -35,6 +35,12 @@
             height: 80vh;
             overflow: hidden;
         }
+
+        @media (max-width: 768px) {
+              .header-container {
+                height: 60vh; /* Mobile */
+            }
+        }
         
         .header-bg {
             position: absolute;
@@ -250,10 +256,16 @@
         }
         
         .product-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
+    font-size: 1.3rem; /* Desktop */
+}
+@media (max-width: 768px) {
+    .product-title {
+        font-size: 1.5rem; /* Mobile */
+    }
+    .header-btn {
+        padding: 1rem 2rem; /* Tombol lebih besar */
+    }
+}
         
         .product-price {
             font-size: 1.2rem;
@@ -275,6 +287,13 @@
             background-color: var(--white);
         }
         
+        @media (max-width: 768px) {
+    .abstract-gallery {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 25vh);
+    }
+}
+
         .panel {
             background-size: cover;
             background-position: center;
@@ -308,7 +327,7 @@
         .panel-detail-1 {
             grid-column: 1;
             grid-row: 2 / span 2;
-            background-image: url('modelstickypas9.jpg');
+            background-image: url('modelstickypas8.jpg');
             background-position: 30% center;
         }
         
@@ -925,4 +944,3 @@
     </script>
 </body>
 </html>
-
